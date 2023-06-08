@@ -86,5 +86,8 @@ namespace OpenAI
                 StartRecording();
             }
         }
+        public void StartRecordingForVoiceRecognition(){
+            if(CanRecord)  StartRecording();
+        }
     }
 }

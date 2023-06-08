@@ -22,7 +22,7 @@ public class VoiceRecognizerPortal : MonoBehaviour
         keywords.Add("Show", controlUI.showMap);
         keywords.Add("In", portalPlacement.PlaceIn);
         keywords.Add("Out", portalPlacement.PlaceOut);
-        //keywords.Add("Hello",whisperControl.VoiceControlStartRecord); //start record
+        keywords.Add("Record",whisperControl.StartRecordingForVoiceRecognition); //start record
 
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray(),ConfidenceLevel.Low);
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
