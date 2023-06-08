@@ -25,7 +25,7 @@ public class Wizard_agent : Training_scripts
         }
         Player_status = Player.GetComponentInChildren<Player_interface>();
 
-        Player_weapon = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<player_weapon>();
+        Player_weapon = GameObject.FindGameObjectWithTag("RightHand").GetComponentInChildren<player_weapon>();
         if(isAgent) Agent_weapon = Player.GetComponentInChildren<Agent_weapon>();
     }
     public override void OnEpisodeBegin()

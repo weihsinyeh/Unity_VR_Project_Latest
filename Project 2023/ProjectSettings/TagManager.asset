@@ -25,6 +25,7 @@ TagManager:
   - Boat
   - Bones
   - Grave
+  - RightHand
   layers:
   - Default
   - TransparentFX

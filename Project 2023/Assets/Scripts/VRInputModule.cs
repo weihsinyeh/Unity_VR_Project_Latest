@@ -1,0 +1,22 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using Valve.VR;
+public class VRInputModule : MonoBehaviour
+{
+    public Camera m_Camera;
+    public SteamVR_Input_Sources m_TargetSource;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

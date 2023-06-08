@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Luminosity.IO;
+using Valve.VR;
 
 public class Element
 {
@@ -38,6 +38,8 @@ public class Group
 
 public class player_weapon : MonoBehaviour
 {
+    public SteamVR_Action_Boolean SlashVR;
+
     public GameObject particle;
     public GameObject Base, Tip;
     public Player_interface status;
@@ -52,7 +54,7 @@ public class player_weapon : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if(other.GetComponentInParent<sliceable>() == null || other.GetComponentInParent<sliceable>().life_time < 1 || !other.GetComponentInParent<sliceable>().act) return;
-        if(!InputManager.GetButton("Slash")) return;
+        if(!SlashVR.GetState(SteamVR_Input_Sources.RightHand)) return;
 
         _tip = Tip.transform.position;
         _base = Base.transform.position;
@@ -60,7 +62,7 @@ public class player_weapon : MonoBehaviour
     public void OnTriggerExit(Collider other)
     {
         if(other.GetComponentInParent<sliceable>() == null || other.GetComponentInParent<sliceable>().life_time < 1 || !other.GetComponentInParent<sliceable>().act) return; 
-        if(!InputManager.GetButton("Slash")) return;
+        if(!SlashVR.GetState(SteamVR_Input_Sources.RightHand)) return;
 
         GameObject Parent = other.GetComponentInParent<sliceable>().gameObject;
         Vector3 slide1 = Tip.transform.position - _base;
@@ -87,45 +89,45 @@ public class player_weapon : MonoBehaviour
         slice(other.gameObject, slicePlane, transformedNormal);
     }
 
-    void SwapeSword() { 
-        float xAxis = InputManager.mousePosition.x;
-        float yAxis = InputManager.mousePosition.y;
-        float zAxis = 0.4f;
-
-        if(InputManager.GetButton("Slash")){
-            transform.localPosition = new Vector3(Mathf.Min(Mathf.Max(xAxis, 0), Screen.width) / Screen.width - 0.5f, Mathf.Min(Mathf.Max(yAxis, 0), Screen.height) / Screen.height - 0.5f, zAxis);
-            if(!swapeDone){
-                float vx = xAxis - prevX, vy = yAxis - prevY;
-                float v = Mathf.Sqrt(vx * vx + vy * vy) * Time.deltaTime;
-                if(v > 0.3f && status.iFrame == 0){
-                    sweapNormal = Vector3.Cross(new Vector3( vx, vy, 0), new Vector3( 0, 0, 1)).normalized;
-                    transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(vx, -vy) * 180 / Mathf.PI);
-                    desDeg = Quaternion.AngleAxis(-179, sweapNormal) * transform.localRotation;
-                    sweaping = true;
-                }else if(sweaping) swapeDone = true; 
-            }
-        }
-        if(swapeDone && status.iFrame == 0) {
-            if(transform.localRotation != desDeg){
-                GetComponent<BoxCollider>().enabled = true;
-                transform.localRotation = Quaternion.Slerp(transform.localRotation, desDeg, 25f * Time.deltaTime);
-                particle.SetActive(true);
-            }else{
-                GetComponent<BoxCollider>().enabled = false;
-                swapeDone = false;
-                sweaping = false;
-                particle.SetActive(false);
-            }
-        }
-        else if(!InputManager.GetButton("Slash") || status.iFrame > 0)
-        {
-            GetComponent<BoxCollider>().enabled = false;
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, new Vector3(0.3f, -0.1f, zAxis),ref moveVel, 0.1f);
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(0f, 0f, 0f), 6f * Time.deltaTime);
-        }
-        prevX = xAxis;
-        prevY = yAxis;
-    }
+  //  void SwapeSword() { 
+  //      float xAxis = InputManager.mousePosition.x;
+  //      float yAxis = InputManager.mousePosition.y;
+  //      float zAxis = 0.4f;
+  //
+  //      if(InputManager.GetButton("Slash")){
+  //          transform.localPosition = new Vector3(Mathf.Min(Mathf.Max(xAxis, 0), //Screen.width) / Screen.width - 0.5f, Mathf.Min(Mathf.Max(yAxis, 0), //Screen.height) / Screen.height - 0.5f, zAxis);
+  //          if(!swapeDone){
+  //              float vx = xAxis - prevX, vy = yAxis - prevY;
+  //              float v = Mathf.Sqrt(vx * vx + vy * vy) * Time.deltaTime;
+  //              if(v > 0.3f && status.iFrame == 0){
+  //                  sweapNormal = Vector3.Cross(new Vector3( vx, vy, 0), new /Vector3/( 0, 0, 1)).normalized;
+  //                  transform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(vx, /-/vy) * 180 / Mathf.PI);
+  //                  desDeg = Quaternion.AngleAxis(-179, sweapNormal) * //transform.localRotation;
+  //                  sweaping = true;
+  //              }else if(sweaping) swapeDone = true; 
+  //          }
+  //      }
+  //      if(swapeDone && status.iFrame == 0) {
+  //          if(transform.localRotation != desDeg){
+  //              GetComponent<BoxCollider>().enabled = true;
+  //              transform.localRotation = Quaternion.Slerp/(transform.localRotation, /desDeg, 25f * Time.deltaTime);
+  //              particle.SetActive(true);
+  //          }else{
+  //              GetComponent<BoxCollider>().enabled = false;
+  //              swapeDone = false;
+  //              sweaping = false;
+  //              particle.SetActive(false);
+  //          }
+  //      }
+  //      else if(!InputManager.GetButton("Slash") || status.iFrame > 0)
+  //      {
+  //          GetComponent<BoxCollider>().enabled = false;
+  //          transform.localPosition = Vector3.SmoothDamp(transform.localPosition, //new Vector3(0.3f, -0.1f, zAxis),ref moveVel, 0.1f);
+  //          transform.localRotation = Quaternion.Slerp(transform.localRotation, //Quaternion.Euler(0f, 0f, 0f), 6f * Time.deltaTime);
+  //      }
+  //      prevX = xAxis;
+  //      prevY = yAxis;
+  //  }
     
     //要切割模型的話, 需要對最基本的面(三角形)進行切割那我們需要求的其邊上跟平面的 intersection
     private Vector3 getIntersectionVertexOnPlane(Plane plane, Vector3 v1, Vector3 v2, out float dis){
@@ -562,12 +564,12 @@ public class player_weapon : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        pos     = InputManager.mousePosition;
-        pos.z   = 0.98f;
-        pos     = Camera.main.ScreenToWorldPoint(pos);
-        
-        SwapeSword();
-    }
+  //  void Update()
+  //  {
+  //      pos     = InputManager.mousePosition;
+  //      pos.z   = 0.98f;
+  //      pos     = Camera.main.ScreenToWorldPoint(pos);
+  //      
+  //      SwapeSword();
+  //  }
 }

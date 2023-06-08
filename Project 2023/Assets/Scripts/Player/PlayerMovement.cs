@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine;
-using Luminosity.IO;
+using Valve.VR;
 
 [RequireComponent(typeof(Transform))]
 [RequireComponent(typeof(Rigidbody))]
@@ -11,6 +11,14 @@ using Luminosity.IO;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public SteamVR_Action_Vector2 VerHor_input;
+    public SteamVR_Action_Boolean jumpVR;
+    public SteamVR_Action_Boolean dashVR;
+    public SteamVR_Action_Boolean crouchVR;
+    public SteamVR_Action_Boolean healVR;
+    public SteamVR_Action_Boolean restartVR;
+
+
     public static bool disableMovement = false;
     public Player_interface player;
     public float moveSpeed;
@@ -186,10 +194,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Input()
     {
-        verticalInput = InputManager.GetAxisRaw("Vertical");
-        horizontalInput = InputManager.GetAxisRaw("Horizontal");
+        Vector2 VerHor = VerHor_input.GetAxis(SteamVR_Input_Sources.LeftHand);
 
-        if(InputManager.GetButton("Heal"))
+        verticalInput = (VerHor.y >= 0.5f) ? 1 : 0;
+        verticalInput = (VerHor.y <= -0.5f) ? -1 : verticalInput;
+        horizontalInput = (VerHor.x >= 0.5f) ? 1 : 0;
+        horizontalInput = (VerHor.x <= -0.5f) ? -1 : horizontalInput;
+
+        if (healVR.GetState(SteamVR_Input_Sources.RightHand))
         {
             player.Healing();
             moveSpeed = maxSp / 4;
@@ -211,13 +223,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (sameButtonRunDash)
         {
-            if (InputManager.GetButtonDown("Run"))
+            if (dashVR.GetStateDown(SteamVR_Input_Sources.RightHand))
             {
                 dashPressTime = Time.time;
                 if (onGround && !crouching)
                     runPressTime = Time.time;
             }
-            if (InputManager.GetButton("Run"))
+            if (dashVR.GetState(SteamVR_Input_Sources.RightHand))
             {
                 if (onGround && !crouching && runPressTime > 0 && Time.time >= runPressTime + buttonPressTime)
                 {
@@ -232,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
                     dashPressTime = -1f;
                 }
             }
-            if (InputManager.GetButtonUp("Dash") && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)
+            if (dashVR.GetStateUp(SteamVR_Input_Sources.RightHand) && dashPressTime > 0 && Time.time < dashPressTime + buttonPressTime)
             {
                 if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
                 {
@@ -250,7 +262,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if (InputManager.GetButtonDown("Run") && onGround && moving && !crouching)
+            if (dashVR.GetStateDown(SteamVR_Input_Sources.RightHand) && onGround && moving && !crouching)
             {
                 running = !running;
                 if (sliding)
@@ -260,7 +272,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            if (InputManager.GetButtonDown("Dash"))
+            if (dashVR.GetStateDown(SteamVR_Input_Sources.RightHand)) // InputManager.GetButtonDown("Dash"))
             {
                 if (Time.time > dashStartTime + dashCD && !topBlock && canDash)
                 {
@@ -277,7 +289,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (InputManager.GetButtonDown("Jump"))
+        if (jumpVR.GetStateDown(SteamVR_Input_Sources.LeftHand))
         {
             ignoreWall = detectWall;
             if (crouching)
@@ -289,16 +301,16 @@ public class PlayerMovement : MonoBehaviour
                 SlideReset();
             }
         }
-        if (InputManager.GetButton("Jump") && !crouching && !sliding)
+        if (jumpVR.GetState(SteamVR_Input_Sources.LeftHand) && !crouching && !sliding)
         {
             Jump();
         }
-        if (InputManager.GetButtonUp("Jump"))
+        if (jumpVR.GetStateUp(SteamVR_Input_Sources.LeftHand))
         {
             JumpReset();
         }
 
-        if (InputManager.GetButtonDown("Crouch"))
+        if (crouchVR.GetState(SteamVR_Input_Sources.LeftHand))
         {
             if (onGround && Time.time > crouchStartTime + crouchCD)
             {
@@ -321,7 +333,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (InputManager.GetButtonDown("Restart"))
+        if (restartVR.GetStateDown(SteamVR_Input_Sources.LeftHand))
         {
             Restart();
         }
