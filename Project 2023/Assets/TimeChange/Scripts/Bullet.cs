@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag!= "Bullet" && collision.gameObject.layer != 3 && !collided)
+        if(collision.gameObject.tag!= "Bullet" && collision.gameObject.layer != 3 && !collided && collision.gameObject.tag!="Weapon")
         {
             ContactPoint contactPoint = collision.contacts[0];
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, contactPoint.normal);

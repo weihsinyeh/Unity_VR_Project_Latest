@@ -17,13 +17,15 @@ public class EnterAltar : MonoBehaviour
     [Space]
     [Header("Weapon")]
     public GameObject Rocket;
+    public GameObject RocketCG;
+
     public WeaponHandler weaponHandler;
     public GameObject FireBullet;
     public Material RocketFireMat;
     public GameObject timeline;
 
 
-    private bool put= false;
+    private bool put = false;
     private bool enter = false;
     private bool fadeOut = false;
 
@@ -41,7 +43,7 @@ public class EnterAltar : MonoBehaviour
 
     private void Update()
     {
-        if(BlackCanvas.alpha == 1f && !fadeOut && put)
+        if (BlackCanvas.alpha == 1f && !fadeOut && put)
         {
             PanelFadeOut(BlackCanvas, 1f);
             timeline.SetActive(true);
@@ -51,35 +53,36 @@ public class EnterAltar : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 3 &&!enter)
+        if (other.gameObject.layer == 3 && !enter)
         {
             enter = true;
- 
-            Canvas_text.text = "Right Grip to put the RocketLauncher at the middle of Altar";
+
+            Canvas_text.text = "Put the RocketLauncher at the middle (Right Grip)";
             PanelFadeIn(PickUpCanvas, fadeTime);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(enter && other.gameObject.layer == 3)
+        if (enter && other.gameObject.layer == 3)
         {
             if (weaponHandler.hand.currentAttachedObject == Rocket && PickVR.GetStateDown(SteamVR_Input_Sources.RightHand) && !put)
             {
                 weaponHandler.ChangeToHand();
                 weaponHandler.weaponList.Remove(Rocket);
 
-                Rocket.transform.SetParent(null);
                 Rocket.SetActive(true);
+                Rocket.GetComponent<Rigidbody>().useGravity = false;
+                Rocket.GetComponent<Rigidbody>().isKinematic = true;
                 Rocket.GetComponent<PickWeaponVr>().enabled = false;
- 
+
                 Canvas_text.text = "Danger! Please get away from the Altar";
                 put = true;
             }
 
         }
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 3 && enter)
@@ -89,6 +92,7 @@ public class EnterAltar : MonoBehaviour
 
             if (put)
             {
+                Rocket.SetActive(false);
                 PanelFadeIn(BlackCanvas, 1f);
             }
 
@@ -112,8 +116,6 @@ public class EnterAltar : MonoBehaviour
 
     private void PanelFadeOut(CanvasGroup canvasGroup, float fadeTime)
     {
-        Rocket.GetComponent<Rigidbody>().useGravity = false;
-        Rocket.GetComponent<Rigidbody>().isKinematic = true;
         canvasGroup.alpha = 1f;
         canvasGroup.DOFade(0f, fadeTime);
     }
@@ -123,8 +125,8 @@ public class EnterAltar : MonoBehaviour
         Rocket.GetComponent<PickWeaponVr>().enabled = true;
         Rocket.GetComponent<PickWeaponVr>().pickUpArea = pickUpArea_new;
         Rocket.GetComponent<Renderer>().material = RocketFireMat;
-        Rocket.GetComponent<PickWeaponVr>().enabled = true;
         Rocket.GetComponent<Crossbow>().ArrowPrefab = FireBullet;
+        Rocket.transform.localPosition = RocketCG.transform.localPosition;
+        RocketCG.GetComponent<Renderer>().material = RocketFireMat;
     }
-
 }

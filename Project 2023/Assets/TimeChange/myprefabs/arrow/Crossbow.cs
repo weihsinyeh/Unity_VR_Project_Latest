@@ -30,11 +30,9 @@ public class Crossbow : MonoBehaviour
 
         if(FireVR.GetStateDown(SteamVR_Input_Sources.RightHand) && firetimer <=0f && interactable.attachedToHand )          //if left click and fire timer less than zero
         {
-             //    Vector3 middleofScreen = Cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 80f));   //Find the middle of the screen with z offset of 100f (fakes shooting to the middle)
-             //    ArrowLaunch.LookAt(middleofScreen);                                                       //makes the launchtransform look at it
-            
             GameObject arrow = Instantiate(ArrowPrefab, ArrowLaunch.position, ArrowLaunch.rotation); //Instantiate the arrow
-                                                                                                  
+            
+            arrow.GetComponent<Rigidbody>().AddForce()
             arrow.GetComponent<Rigidbody>().velocity = ArrowLaunch.transform.forward * ArrowSpeed;        //Set the velocity of the arrow
             firetimer = FireRate;                                                    // Makes the firetimer go back to the default firerate;     
         }
