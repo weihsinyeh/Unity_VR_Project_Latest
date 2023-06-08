@@ -35,13 +35,13 @@ TagManager:
   - UI
   - PortalLayer
   - 
-  - 
+  - Bullet
   - Present
   - Past
   - Wall
   - NotWall
   - MiniMap
-  - 
+  - weapon
   - 
   - 
   - 

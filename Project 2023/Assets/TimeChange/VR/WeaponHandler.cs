@@ -18,7 +18,10 @@ public class WeaponHandler : MonoBehaviour
 
     void Start()
     {
-        grab = false;
+        weaponNum = 0;
+        currentInteractable = weaponList[weaponNum].GetComponent<Interactable>();
+        hand.AttachObject(weaponList[weaponNum], GrabTypes.Grip, attachmentFlags);
+        grab = true;
     }
 
 

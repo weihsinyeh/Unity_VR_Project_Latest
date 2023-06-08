@@ -4,6 +4,7 @@ using UnityEngine;
 using Luminosity.IO;
 using UnityEngine.UI;
 using Valve.VR;
+using Valve.VR.InteractionSystem;
 
 public class ProceduralIvy : MonoBehaviour {
     public SteamVR_Action_Vector2 VerHor_input;
@@ -50,7 +51,7 @@ public class ProceduralIvy : MonoBehaviour {
     [Header("Prediction")]
     public RaycastHit predictionHit;
     public float predictionSphereCastRadius;
-  //  public Transform predictionPoint;
+
     [Header("OdmGear")]
     public Rigidbody rb;
     public float horizontalThrustForce;
@@ -58,7 +59,7 @@ public class ProceduralIvy : MonoBehaviour {
     public float extendCableSpeed;
     public GameObject image;
     private Image im;
-    private PickWeaponVr pickweapon;
+    private Interactable interactable;
 
     public AudioManager audioManager;
     void Awake()
@@ -70,14 +71,14 @@ public class ProceduralIvy : MonoBehaviour {
           tmCon = GameObject.FindGameObjectWithTag("TimeManager").GetComponent<TimeShiftingController>();
           rb = player.GetComponent<Rigidbody>();
           im = image.GetComponent<Image>();
-          pickweapon = GetComponent<PickWeaponVr>();
+          interactable = GetComponent<Interactable>();
 
 
     }
 
     void Update() {
 
-        if (pickweapon.Grabbed)
+        if (interactable.attachedToHand)
         {
             if (tmCon.PastBool == 0) ignoreLayer = ~((1 << 2) | (1 << 3) | (1 << 4) | (1 << 6) | (1 << 10));
             else if (tmCon.PastBool == 2) ignoreLayer = ~((1 << 2) | (1 << 3) | (1 << 4) | (1 << 6) | (1 << 9));
@@ -178,7 +179,6 @@ public class ProceduralIvy : MonoBehaviour {
         else if(predictionHit.transform.gameObject.tag == "Grappleable")
         {
             audioManager.PlayAudio("connectVine");
-            // deactivate active grapple
             playerMovement.swinging = true;
             
 

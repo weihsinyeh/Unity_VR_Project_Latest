@@ -8,14 +8,10 @@ using DG.Tweening;
 
 public class PlayerRelife : MonoBehaviour
 {
-    [SerializeField] private UniversalRendererData rendererData = null;
-    [SerializeField] private string featureName = "Desaturate";
+    public Material mat;
     [SerializeField] private float DarkPeriod = 0.5f;
     [SerializeField] private float StopPeriod = 1f;
     [SerializeField] private float BackPeriod = 1f;
-
-    ScriptableRendererFeature feature;
-    Material mat;
 
     [Header("DeadEffect")]
     [ColorUsageAttribute(true, true)]
@@ -43,9 +39,6 @@ public class PlayerRelife : MonoBehaviour
         playerInterface = this.GetComponent<Player_interface>();
         playerMovement = this.GetComponent<PlayerMovement>();
 
-        feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
-        var blitFeature = feature as BlitMaterialFeature;
-        mat = blitFeature.Material;
         mat.SetFloat("_Saturation", 1);
         mat.SetFloat("_FullScreenIntensity", 1);
         o_Color = mat.GetColor("_FrameColor");

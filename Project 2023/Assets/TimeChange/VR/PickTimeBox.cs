@@ -11,7 +11,6 @@ public class PickTimeBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         interactable = GetComponent<Interactable>();
         enableTime = GetComponentInParent<EnableTime>();
     }

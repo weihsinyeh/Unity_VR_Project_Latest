@@ -23,8 +23,6 @@ public class EnableTime : MonoBehaviour
     [Header("ItemDialogue")]
     public CanvasGroup ItemDialogue;
 
-    private TMP_Text Canvas_text;
-
     private bool TimeBoxDestroy = false;
 
     // Start is called before the first frame update
@@ -32,7 +30,6 @@ public class EnableTime : MonoBehaviour
     {
         desaturateController = GameObject.FindGameObjectWithTag("TimeManager").GetComponent<DesaturateController>();
         timeShiftingController = GameObject.FindGameObjectWithTag("TimeManager").GetComponent<TimeShiftingController>();
-        Canvas_text = PickUpCanvas.GetComponentInChildren<TMP_Text>();
 
     }
 
@@ -42,10 +39,12 @@ public class EnableTime : MonoBehaviour
         {
             if (!Picked)
             {
-            Canvas_text.text = Text;
             PanelFadeIn(PickUpCanvas);
             }
-
+            else
+            {
+                PanelFadeIn(ItemDialogue);
+            }
         }
 
     }

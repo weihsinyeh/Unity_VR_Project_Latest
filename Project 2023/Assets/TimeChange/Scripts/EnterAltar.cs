@@ -4,19 +4,20 @@ using UnityEngine;
 using Luminosity.IO;
 using DG.Tweening;
 using TMPro;
+using Valve.VR;
 
 public class EnterAltar : MonoBehaviour
 {
     public CanvasGroup BlackCanvas;
+    public PickUpArea pickUpArea_new;
 
-    [Header("Particles")]
-    public ParticleSystem Side;
+    [Header("Input")]
+    public SteamVR_Action_Boolean PickVR;
+
     [Space]
     [Header("Weapon")]
-    public GameObject PickBlue;
-    public Transform weaponHandler;
-    public Transform weaponTEMP;
-    public Crossbow RocketLauncher;
+    public GameObject Rocket;
+    public WeaponHandler weaponHandler;
     public GameObject FireBullet;
     public Material RocketFireMat;
     public GameObject timeline;
@@ -35,7 +36,6 @@ public class EnterAltar : MonoBehaviour
 
     private void Start()
     {
-        PickBlue.SetActive(false);
         Canvas_text = PickUpCanvas.GetComponentInChildren<TMP_Text>();
     }
 
@@ -55,7 +55,7 @@ public class EnterAltar : MonoBehaviour
         {
             enter = true;
  
-            Canvas_text.text = "press F to put the RocketLauncher at the middle of Altar";
+            Canvas_text.text = "Right Grip to put the RocketLauncher at the middle of Altar";
             PanelFadeIn(PickUpCanvas, fadeTime);
         }
     }
@@ -64,14 +64,11 @@ public class EnterAltar : MonoBehaviour
     {
         if(enter && other.gameObject.layer == 3)
         {
-            if (InputManager.GetButtonDown("Pick") && !put)
+            if (weaponHandler.hand.currentAttachedObject == Rocket && PickVR.GetStateDown(SteamVR_Input_Sources.RightHand) && !put)
             {
-                PickBlue.SetActive(true);
-                RocketLauncher.gameObject.SetActive(false);
-                RocketLauncher.transform.SetParent(weaponTEMP.transform);
-
+                weaponHandler.ChangeToHand();
+                weaponHandler.weaponList.Remove(Rocket);
                 Canvas_text.text = "Danger! Please get away from the Altar";
-                weaponHandler.GetComponent<WeaponSwitching>().addWeapon = true;
                 put = true;
             }
 
@@ -93,19 +90,16 @@ public class EnterAltar : MonoBehaviour
 
         }
     }
-      public void DestroyTheAltar()
-      {
-         RocketLauncher.ArrowPrefab = FireBullet;
-         RocketLauncher.GetComponentInChildren<Renderer>().material = RocketFireMat;
-         
-         PanelFadeOut(BlackCanvas, 1f);
-         Destroy(timeline);
-         Destroy(this.gameObject);
+    public void DestroyTheAltar()
+    {
+        PanelFadeOut(BlackCanvas, 1f);
+        Destroy(timeline);
+        Destroy(this.gameObject);
     }
 
 
 
-    private void PanelFadeIn(CanvasGroup canvasGroup,float fadeTime)
+    private void PanelFadeIn(CanvasGroup canvasGroup, float fadeTime)
     {
         canvasGroup.alpha = 0f;
         canvasGroup.DOFade(1f, fadeTime);
@@ -113,16 +107,18 @@ public class EnterAltar : MonoBehaviour
 
     private void PanelFadeOut(CanvasGroup canvasGroup, float fadeTime)
     {
+        Rocket.GetComponent<Rigidbody>().useGravity = false;
+        Rocket.GetComponent<Rigidbody>().isKinematic = true;
         canvasGroup.alpha = 1f;
         canvasGroup.DOFade(0f, fadeTime);
     }
 
     public void changeRocket()
     {
-        PickBlue.GetComponentInChildren<Renderer>().material = RocketFireMat;
-        PickBlue.GetComponent<PickUp>().enabled = true;
-        PickBlue.GetComponent<SphereCollider>().enabled = true;
+        Rocket.GetComponent<PickWeaponVr>().pickUpArea = pickUpArea_new;
+        Rocket.GetComponent<Renderer>().material = RocketFireMat;
+        Rocket.GetComponent<PickWeaponVr>().enabled = true;
+        Rocket.GetComponent<Crossbow>().ArrowPrefab = FireBullet;
     }
-
 
 }

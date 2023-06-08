@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8700353451253769342}
   - component: {fileID: 8700353451253769340}
   - component: {fileID: 8700353451253769343}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4836,7 +4836,7 @@ GameObject:
   - component: {fileID: 7101015686968034673}
   - component: {fileID: 640956803982715247}
   - component: {fileID: 4557172368808816973}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FireProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5033,7 +5033,7 @@ GameObject:
   - component: {fileID: 8700353451566004164}
   - component: {fileID: 8700353451566004162}
   - component: {fileID: 8700353451566004165}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ProjectileParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9845,7 +9845,7 @@ GameObject:
   - component: {fileID: 8700353451931376707}
   - component: {fileID: 8700353451931376705}
   - component: {fileID: 8700353451931376704}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14715,7 +14715,7 @@ GameObject:
   - component: {fileID: 8700353452408231588}
   - component: {fileID: 8700353452408231586}
   - component: {fileID: 8700353452408231589}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: particle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

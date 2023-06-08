@@ -56,6 +56,7 @@ public class player_weapon : MonoBehaviour
         if(other.GetComponentInParent<sliceable>() == null || other.GetComponentInParent<sliceable>().life_time < 1 || !other.GetComponentInParent<sliceable>().act) return;
         if(!SlashVR.GetState(SteamVR_Input_Sources.RightHand)) return;
 
+        Debug.Log("Enter");
         _tip = Tip.transform.position;
         _base = Base.transform.position;
     }
@@ -63,7 +64,7 @@ public class player_weapon : MonoBehaviour
     {
         if(other.GetComponentInParent<sliceable>() == null || other.GetComponentInParent<sliceable>().life_time < 1 || !other.GetComponentInParent<sliceable>().act) return; 
         if(!SlashVR.GetState(SteamVR_Input_Sources.RightHand)) return;
-
+        Debug.Log("Out");
         GameObject Parent = other.GetComponentInParent<sliceable>().gameObject;
         Vector3 slide1 = Tip.transform.position - _base;
         Vector3 slide2 = Base.transform.position - _tip;

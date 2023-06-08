@@ -10,9 +10,6 @@ public class DesaturateController : MonoBehaviour {
 
     public SteamVR_Action_Boolean TimeStop;
 
-
-    //  [SerializeField] private UniversalRendererData rendererData = null;
-    //  [SerializeField] private string featureName = null;
     [SerializeField] private float transitionPeriod = 1;
 
 
@@ -20,7 +17,6 @@ public class DesaturateController : MonoBehaviour {
     private bool transitioning;
     private float startTime;
     private float fullscreenintensity;
-  //  ScriptableRendererFeature feature;
     public Material mat;
     public bool TimeIsStopped;
 

@@ -4,12 +4,14 @@ using UnityEngine;
 using Valve.VR;
 using Valve.VR.InteractionSystem;
 
+
 public class PickWeaponVr : MonoBehaviour
 {
     private Interactable interactable;
-    public bool Grabbed = false;
     public WeaponHandler weaponHandler;
+    public PickUpArea pickUpArea;
 
+    public bool Grabbed = false;
     public Hand.AttachmentFlags attachmentFlags = Hand.AttachmentFlags.ParentToHand | Hand.AttachmentFlags.DetachFromOtherHand | Hand.AttachmentFlags.TurnOnKinematic;
 
     void Start()
@@ -19,12 +21,10 @@ public class PickWeaponVr : MonoBehaviour
 
     private void HandHoverUpdate(Hand hand)
     {
-
-        if (!Grabbed)
+        if (!Grabbed && weaponHandler.weaponNum == 3)
         {
-
             GrabTypes grabType = hand.GetGrabStarting();
-            //bool isGrabEnding = hand.IsGrabEnding(gameObject);
+
             if (interactable.attachedToHand == null && grabType == GrabTypes.Grip)
             {
                 hand.AttachObject(gameObject, grabType, attachmentFlags);
@@ -33,17 +33,24 @@ public class PickWeaponVr : MonoBehaviour
                 weaponHandler.weaponList.Add(this.gameObject);
                 weaponHandler.grab = true;
                 weaponHandler.weaponNum = weaponHandler.weaponList.Count - 1;
+
                 Grabbed = true;
+
                 this.gameObject.GetComponent<Rigidbody>().useGravity = true;
                 this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                this.enabled = false;
+                pickUpArea.Picked = true;
+
+
             }
-          // else if (isGrabEnding)
-          // {
-          //     hand.DetachObject(gameObject);
-          //     hand.HoverUnlock(interactable);
-          // }
+ 
         }
 
     }
+
+
+
+
+
+
+
 }
