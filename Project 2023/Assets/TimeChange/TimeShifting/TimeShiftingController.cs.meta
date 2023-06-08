@@ -3,7 +3,16 @@ guid: b6e27ce7031154a49b988f83de94e418
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mat: {fileID: 2100000, guid: e43336870b221114380f6f50c10e9d80, type: 2}
+  - NoiseTexture: {instanceID: 0}
+  - mycamera: {instanceID: 0}
+  - pastlight: {instanceID: 0}
+  - pastVolume: {instanceID: 0}
+  - PastSky: {instanceID: 0}
+  - presentlight: {instanceID: 0}
+  - presentVolume: {instanceID: 0}
+  - PresentSky: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

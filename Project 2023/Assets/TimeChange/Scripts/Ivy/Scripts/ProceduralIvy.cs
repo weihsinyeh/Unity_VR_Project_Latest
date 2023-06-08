@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Luminosity.IO;
 using UnityEngine.UI;
+using Valve.VR;
 
 public class ProceduralIvy : MonoBehaviour {
+    public SteamVR_Action_Vector2 VerHor_input;
+    public SteamVR_Action_Boolean FireVR;
+    public SteamVR_Action_Boolean shortenRopeVR;
+
+
+    [Space]
     public GameObject IvyObject;
     public Transform cam;
-    public float swingmass = 30;
-
+    [Space]
+    public float recycleInterval = 30;
     [Space]
     public int branches = 3;
     public int maxPointsForBranch = 20;
@@ -16,6 +23,13 @@ public class ProceduralIvy : MonoBehaviour {
     public float branchRadius = 0.02f;
     [Space]
     public Material branchMaterial;
+    //   public Material leafMaterial;
+    //   public Material flowerMaterial;
+        [Space]
+    //    public Blossom leafPrefab;
+    //    public Blossom flowerPrefab;
+        [Space]
+     //   public bool wantBlossoms;
     
     int ivyCount = 0;
     int ignoreLayer;
@@ -38,13 +52,13 @@ public class ProceduralIvy : MonoBehaviour {
     public float predictionSphereCastRadius;
   //  public Transform predictionPoint;
     [Header("OdmGear")]
-    private Rigidbody rb;
-    private float RBmass;
+    public Rigidbody rb;
     public float horizontalThrustForce;
     public float forwardThrustForce;
     public float extendCableSpeed;
     public GameObject image;
     private Image im;
+    private PickWeaponVr pickweapon;
 
     public AudioManager audioManager;
     void Awake()
@@ -55,36 +69,44 @@ public class ProceduralIvy : MonoBehaviour {
           ignoreLayer = ~((1 << 2) | (1 << 3) | (1 << 4)| (1 << 6));
           tmCon = GameObject.FindGameObjectWithTag("TimeManager").GetComponent<TimeShiftingController>();
           rb = player.GetComponent<Rigidbody>();
-          RBmass = rb.mass;
           im = image.GetComponent<Image>();
+          pickweapon = GetComponent<PickWeaponVr>();
+
 
     }
 
     void Update() {
-        if (tmCon.PastBool == 0) ignoreLayer = ~((1 << 2) | (1 << 3) | (1 << 4) | (1 << 6) | (1 << 10));
-        else if (tmCon.PastBool == 2) ignoreLayer = ~((1 << 2) | (1 << 3) | (1 << 4) | (1 << 6) | (1 << 9) );
 
-        if (joint)
+        if (pickweapon.Grabbed)
         {
-            if (tmCon.PastBool == 0 && (predictionHit.transform.gameObject.layer == 10)) StopGrapple();
-            else if (tmCon.PastBool == 2 && (predictionHit.transform.gameObject.layer == 9)) StopGrapple();
-            else if (!playerMovement.swinging) StopGrapple();
-            OdmGearMovement();
-        }
-     
-        if (InputManager.GetButtonDown("Fire")) {
-            if (!joint)
+            if (tmCon.PastBool == 0) ignoreLayer = ~((1 << 2) | (1 << 3) | (1 << 4) | (1 << 6) | (1 << 10));
+            else if (tmCon.PastBool == 2) ignoreLayer = ~((1 << 2) | (1 << 3) | (1 << 4) | (1 << 6) | (1 << 9));
+
+            if (joint)
             {
-                if (predictionHit.point == Vector3.zero) return;
-                StartSwing();
+                if (tmCon.PastBool == 0 && (predictionHit.transform.gameObject.layer == 10)) StopGrapple();
+                else if (tmCon.PastBool == 2 && (predictionHit.transform.gameObject.layer == 9)) StopGrapple();
+                else if (!playerMovement.swinging) StopGrapple();
+                OdmGearMovement();
             }
-            else
+
+            if (FireVR.GetStateDown(SteamVR_Input_Sources.RightHand))
             {
-                StopGrapple();
+
+                if (!joint)
+                {
+                    if (predictionHit.point == Vector3.zero) return;
+                    StartSwing();
+                }
+                else
+                {
+                    StopGrapple();
+                }
             }
+
+            CheckForSwingPoints();
         }
 
-        CheckForSwingPoints();
     }
 
   void LateUpdate()
@@ -99,14 +121,13 @@ public class ProceduralIvy : MonoBehaviour {
         im.color = Color.white;
 
         RaycastHit sphereCastHit;
-       Physics.SphereCast(cam.position, predictionSphereCastRadius, cam.forward,            //偵測周圍
+       Physics.SphereCast(gunTip.position, predictionSphereCastRadius, gunTip.forward,            //偵測周圍
                            out sphereCastHit, maxSwingDistance, ignoreLayer);
   
        RaycastHit raycastHit;
-       Physics.Raycast(cam.position, cam.forward,                                           //直接瞄準
+       Physics.Raycast(gunTip.position, gunTip.forward,                                           //直接瞄準
                            out raycastHit, maxSwingDistance, ignoreLayer);
 
-       // Vector3 realHitPoint;
 
         bool SphereGrab = false;
         if (raycastHit.point != Vector3.zero && sphereCastHit.point != Vector3.zero)           //兩者皆有hit，但判定為sphere: 中心點沒打到tag的物件，但周圍有其中一種
@@ -119,6 +140,7 @@ public class ProceduralIvy : MonoBehaviour {
             predictionHit = raycastHit;
         }
 
+
         // Option 2 - Indirect (predicted) Hit
         else if (sphereCastHit.point != Vector3.zero)
         {
@@ -128,6 +150,7 @@ public class ProceduralIvy : MonoBehaviour {
         // Option 3 - Miss
         else
             predictionHit.point = Vector3.zero;
+
 
         if (predictionHit.point != Vector3.zero)
         {
@@ -154,7 +177,6 @@ public class ProceduralIvy : MonoBehaviour {
         }
         else if(predictionHit.transform.gameObject.tag == "Grappleable")
         {
-            rb.mass = swingmass;
             audioManager.PlayAudio("connectVine");
             // deactivate active grapple
             playerMovement.swinging = true;
@@ -191,19 +213,27 @@ public class ProceduralIvy : MonoBehaviour {
     }
     private void OdmGearMovement()
     {
+        Vector2 VerHor = VerHor_input.GetAxis(SteamVR_Input_Sources.LeftHand);
+
+        int verticalInput = (VerHor.y >= 0.5f) ? 1 : 0;
+        verticalInput = (VerHor.y <= -0.5f) ? -1 : verticalInput;
+        int horizontalInput = (VerHor.x >= 0.5f) ? 1 : 0;
+        horizontalInput = (VerHor.x <= -0.5f) ? -1 : horizontalInput;
+
+       
+
 
         // right
-        if (Input.GetKey(KeyCode.D)) rb.AddForce(cam.right * horizontalThrustForce * Time.deltaTime);
+        if (horizontalInput == 1 ) rb.AddForce(cam.right * horizontalThrustForce * Time.deltaTime);
         // left
-        if (Input.GetKey(KeyCode.A)) rb.AddForce(-cam.right * horizontalThrustForce * Time.deltaTime);
+        if (horizontalInput == -1) rb.AddForce(-cam.right * horizontalThrustForce * Time.deltaTime);
 
         // forward
-        if (Input.GetKey(KeyCode.W)) rb.AddForce(cam.forward * horizontalThrustForce * Time.deltaTime);
+        if (verticalInput == 1) rb.AddForce(cam.forward * horizontalThrustForce * Time.deltaTime);
 
         // shorten cable
-        if (Input.GetKey(KeyCode.Space))
+        if (shortenRopeVR.GetState(SteamVR_Input_Sources.LeftHand))
         {
-            
             Vector3 directionToPoint = swingPoint - transform.position;
             rb.AddForce(directionToPoint.normalized * forwardThrustForce * Time.deltaTime);
 
@@ -213,18 +243,17 @@ public class ProceduralIvy : MonoBehaviour {
             joint.minDistance = distanceFromPoint * 0.35f;
         }
         // extend cable
-        if (Input.GetKey(KeyCode.S))
+        if (verticalInput == -1)
         {
             float extendedDistanceFromPoint = Vector3.Distance(transform.position, swingPoint) + extendCableSpeed;
 
-            joint.maxDistance = extendedDistanceFromPoint * 0.7f;
-            joint.minDistance = extendedDistanceFromPoint * 0.4f;
+            joint.maxDistance = extendedDistanceFromPoint * 0.5f;
+            joint.minDistance = extendedDistanceFromPoint * 0.35f;
         }
     }
 
     void StopGrapple()
   {
-        rb.mass = RBmass;
         moving = false;
         playerMovement.swinging = false;
         playerMovement.moveSpeed = o_MoveSpeed;

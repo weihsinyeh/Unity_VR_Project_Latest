@@ -3,30 +3,37 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Collections.Generic;
-using Luminosity.IO;
+//using Luminosity.IO;
+using Valve.VR;
 
 public class DesaturateController : MonoBehaviour {
 
-    [SerializeField] private UniversalRendererData rendererData = null;
-    [SerializeField] private string featureName = null;
+    public SteamVR_Action_Boolean TimeStop;
+
+
+    //  [SerializeField] private UniversalRendererData rendererData = null;
+    //  [SerializeField] private string featureName = null;
     [SerializeField] private float transitionPeriod = 1;
-    ScriptableRendererFeature feature;
-    Material mat;
+
+
+    public bool CanStop;
     private bool transitioning;
     private float startTime;
     private float fullscreenintensity;
-
-    public bool CanStop;
+  //  ScriptableRendererFeature feature;
+    public Material mat;
     public bool TimeIsStopped;
+
     [Space]
     public List<ParticleSystem> allParticle;
 
 
     private void Start()
     {
-        feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
-        var blitFeature = feature as BlitMaterialFeature;
-        mat = blitFeature.Material;
+        CanStop = false;
+  //      feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
+  //      var blitFeature = feature as BlitMaterialFeature;
+  //      mat = blitFeature.Material;
         mat.SetFloat("_Saturation", 1);
         mat.SetFloat("_FullScreenIntensity", 1);
     }
@@ -34,7 +41,8 @@ public class DesaturateController : MonoBehaviour {
     private void Update() {
         if (CanStop)
         {
-            if (InputManager.GetButtonDown("TimeStop"))
+            //if (InputManager.GetButtonDown("TimeStop"))
+            if (TimeStop.GetStateDown(SteamVR_Input_Sources.LeftHand))
             {
                 if (!transitioning)
                 {
@@ -62,6 +70,7 @@ public class DesaturateController : MonoBehaviour {
 
     public void PauseTime()
     {
+        Debug.Log("TimeStop");
         StartTransition();
         StopTime();
     }

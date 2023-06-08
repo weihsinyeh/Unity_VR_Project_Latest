@@ -3,35 +3,23 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Collections.Generic;
-using Luminosity.IO;
 
 public class Death : MonoBehaviour
 {
-
-    [SerializeField] private UniversalRendererData rendererData = null;
-    [SerializeField] private string featureName = null;
-    [SerializeField] private float transitionPeriod_Dead = 1;
-    [SerializeField] private float transitionPeriod_Relife = 1;
+    [Header("Manager")]
     public DesaturateController desaturateController;
     public TimeShiftingController timeShiftingController;
     public AudioManager audioManager;
     public StageAudio stageAudio;
 
+    [Header("Transition")]
+    public Material mat;
+    [SerializeField] private float transitionPeriod_Dead = 1;
+    [SerializeField] private float transitionPeriod_Relife = 1;
     private bool transitioning_dead = false;
     private bool transitioning_relife = false;
     private float startTime;
     private bool picked = false;
-
-    ScriptableRendererFeature feature;
-    Material mat;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        feature = rendererData.rendererFeatures.Where((f) => f.name == featureName).FirstOrDefault();
-        var blitFeature = feature as BlitMaterialFeature;
-        mat = blitFeature.Material;
-    }
 
     // Update is called once per frame
     void Update()
