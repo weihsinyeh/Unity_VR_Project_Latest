@@ -11,9 +11,9 @@ public class MoveStage : MonoBehaviour
     public Color color;
 
      private void OnTriggerEnter(Collider other){
-                 if(other.gameObject.layer == 3 ){
+        if(other.gameObject.layer == 3 ){
                     color = transition.FadeScreen.fadeColor;
                     transition.GoToSceneAsync(sceneIndex);
-                 }
+        }
     }
 }

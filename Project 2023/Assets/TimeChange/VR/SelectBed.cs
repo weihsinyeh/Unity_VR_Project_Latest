@@ -17,7 +17,7 @@ public class SelectBed : MonoBehaviour
     }
 
     // Update is called once per frame
-private void HandHoverUpdate(Hand hand){
+    private void HandHoverUpdate(Hand hand){
         GrabTypes grabType = hand.GetGrabStarting();
 
         if (interactable.attachedToHand == null && grabType == GrabTypes.Grip)
@@ -25,7 +25,7 @@ private void HandHoverUpdate(Hand hand){
             transition.FadeScreen.fadeColor = FadeColor;
             transition.GoToSceneAsync(sceneIndex);
         }
-}
+    }
 }
 
 
