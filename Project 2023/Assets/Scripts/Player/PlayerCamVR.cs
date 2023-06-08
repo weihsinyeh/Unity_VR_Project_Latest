@@ -23,7 +23,7 @@ public class PlayerCamVR : MonoBehaviour
 
     void MouseControl()
     {
-        if (!InputManager.GetButton("Slash") && !PlayerMovement.isTransport)
+        if (!PlayerMovement.isTransport)
         {
             PlayerMovement.onWall = false;
             if (!PlayerMovement.onWall)

@@ -16,6 +16,7 @@ public class Crossbow : MonoBehaviour
     public float FireRate;
     private float firetimer;
     private Interactable interactable;
+    public float force = 10f; // 子彈的力大小
 
     private Vector3 destination;
     void Start()
@@ -32,8 +33,8 @@ public class Crossbow : MonoBehaviour
         {
             GameObject arrow = Instantiate(ArrowPrefab, ArrowLaunch.position, ArrowLaunch.rotation); //Instantiate the arrow
             
-            arrow.GetComponent<Rigidbody>().AddForce()
-            arrow.GetComponent<Rigidbody>().velocity = ArrowLaunch.transform.forward * ArrowSpeed;        //Set the velocity of the arrow
+            arrow.GetComponent<Rigidbody>().AddForce(ArrowLaunch.transform.forward * force, ForceMode.Impulse);
+           // arrow.GetComponent<Rigidbody>().velocity = ArrowLaunch.transform.forward * ArrowSpeed;        //Set the velocity of the arrow
             firetimer = FireRate;                                                    // Makes the firetimer go back to the default firerate;     
         }
     }
