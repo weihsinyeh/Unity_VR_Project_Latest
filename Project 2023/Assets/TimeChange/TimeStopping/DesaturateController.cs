@@ -66,13 +66,15 @@ public class DesaturateController : MonoBehaviour {
 
     public void PauseTime()
     {
-        Debug.Log("TimeStop");
+        if (!CanStop) return;
+            Debug.Log("TimeStop");
         StartTransition();
         StopTime();
     }
 
     public void ResumeTime()
     {
+        if (!CanStop) return;
         ContinueTime();
         ResetTransition();
     }
