@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/VRroom/scenes/the last revelation.unity
+    guid: fffc368ce7c545240a157d1fa3ce0e97
+  - enabled: 1
+    path: Assets/Scenes/Portal.unity
+    guid: f78747221381bd94f823b32f88b435dc
+  - enabled: 1
+    path: Assets/Scenes/TimeChangeScene.unity
+    guid: 89cb17da847d01248bfd44d448cc1be5
   m_configObjects:
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: a56faa98178a3274b98ac2bec51f02b0,
       type: 2}

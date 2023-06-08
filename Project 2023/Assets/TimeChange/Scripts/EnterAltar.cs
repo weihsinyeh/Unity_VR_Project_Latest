@@ -67,11 +67,12 @@ public class EnterAltar : MonoBehaviour
             if (weaponHandler.hand.currentAttachedObject == Rocket && PickVR.GetStateDown(SteamVR_Input_Sources.RightHand) && !put)
             {
                 weaponHandler.ChangeToHand();
-                Rocket.SetActive(true);
-                Rocket.transform.SetParent(null);
-                Rocket.transform.localPosition = this.transform.localPosition;
-                Rocket.GetComponent<PickWeaponVr>().enabled = false;
                 weaponHandler.weaponList.Remove(Rocket);
+
+                Rocket.transform.SetParent(null);
+                Rocket.SetActive(true);
+                Rocket.GetComponent<PickWeaponVr>().enabled = false;
+ 
                 Canvas_text.text = "Danger! Please get away from the Altar";
                 put = true;
             }
