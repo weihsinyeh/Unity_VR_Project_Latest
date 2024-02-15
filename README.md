@@ -109,7 +109,7 @@ When in the forest area, player faces the threat of bird enemies dropping rocks 
 
 ### 3-3. ChatGPT NPC
 #### Player's Perspective and ChatGPT NPC Dialogue Presentation :
-![image](https://hackmd.io/_uploads/rkkAe7sjT.png)
+![image](https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/ChatGPT.jpg)
 
 In order to guide players and enhance game interactivity with Non-Player Characters (NPCs), we have integrated the ChatGPT API to facilitate more immersive dialogue interactions between players and NPCs. 
 
