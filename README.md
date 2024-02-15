@@ -156,3 +156,10 @@ When objects from the alternate scene entered the player's camera view through t
 
 ## 🎉🎉🎉🎉🎉
 Won the 1st place in National Cheng Kung University Computer Science Information Engineer 2023 Graduation Project Exhibition 
+
+## Reference
+1. Oblique View Frustum Depth Projection and Clipping (https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=255FB6BD9252A50A1A7166319C8A5CE0?doi=10.1.1.367.1894&rep=rep1&type=pdf)
+2. https://polycoding.net/marching-cubes 
+3. https://docs.unity3d.com/Manual/Shaders.html 
+4. Floriani L D , Puppo E . An on-line algorithm for constrained Delaunay triangulation[J]. Cvgip Graphical Models & Image Processing, 1992, 54(4):290-300
+5. Sven Koenig, Maxim Likhachev. (2002). D* Lite. In Proceedings of the 18th AAAI Conference on Artificial Intelligence(pp. 476-483). AAAI Press. https://aaai.org/papers/00476-d-lite/
