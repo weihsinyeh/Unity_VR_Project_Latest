@@ -20,23 +20,23 @@ The distinctive features of this project lie in utilizing various technologies t
 **(4) Triangulation application** allows for physical objects to be sliced open by the player's sword, enhancing the realism of injury effects on enemies. Through these technologies, the developed game in this project offers visually enticing effects to captivate player enjoyment.
 
 ## 2. Project Framework
-![image](https://hackmd.io/_uploads/ryAJeZioT.png)
+![image](https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/Framework.jpg)
 
 ## 3. Technique
 ### 3-1. Oblique View Frustum Depth Projection and Clipping achieve the function of portal
 
 #### The effect of the Portal :
 <figure class= "half">
-<img src="https://hackmd.io/_uploads/rkVYl-jiT.png" width="305"/>
-<img src="https://hackmd.io/_uploads/Hk_9ebisT.png" width="325"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/Portal1.jpg" width="305"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/Portal2.jpg" width="325"/>
 </figure>
 
 <figure class= "center">
-<img src="https://hackmd.io/_uploads/B1n9xZjs6.png"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/Portal3.jpg"/>
 </figure>
 
 #### The process of calculating the thickness of the portal involves the following steps and the reason for recalculating the skew matrix is as follows : 
-![image](https://hackmd.io/_uploads/H1cMw-iia.png)
+![image](https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/PortalVisual.png)
 
 **Achieving the visual effect of teleportation involves the following:**
 
@@ -49,7 +49,7 @@ Subsequently, the Oblique Matrix is recalculated to modify the near plane of the
 Finally, the rendering process involves transforming points (vertices) from camera space to clip space using the Projection Matrix, allowing for the visualization of the scene.
 
 #### The processing flow for the player's physical effects during the teleportation process is as follows :
-![image](https://hackmd.io/_uploads/BJMkdZiip.png)
+![image](https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/PortalPhysics.png)
 
 **To achieve the physical effects of teleportation as illustrated below:**
 
@@ -72,8 +72,8 @@ Calculate the player's velocity (player to world), transform it relative to the 
 #### Application in the game
 **(1) In-Portal & Out-Portal**
 <figure class= "half">
-<img src="https://hackmd.io/_uploads/rkJxsQosa.png" width="180"/>
-<img src="https://hackmd.io/_uploads/SJLynXsoa.jpg" width="380"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/AutoPortal.png" width="180"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/AutoPortal2.png" width="380"/>
 </figure>
 
 Player can strategically navigate through the game by observing the map and enemy positions, leveraging the terrain features. They have a limited number of opportunities to set the locations of 'in-portals' and 'out-portals' to successfully complete the level.
@@ -81,18 +81,18 @@ Player can strategically navigate through the game by observing the map and enem
 **(2) Fixed Poral**
 Players can utilize portals to access different areas, either to accomplish specific missions, acquire items, or progress through other regions to successfully complete objectives.
 
-![螢幕擷取畫面 2023-06-05 072626](https://hackmd.io/_uploads/ryZXWEsja.jpg)
+![image](https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/FixedPortal.jpg)
 
 ### 3-2. Marching Cube
 
 #### The effect of Marching Cube :
 <figure class= "half">
-<img src="https://hackmd.io/_uploads/r1WIObisa.png" width="325"/>
-<img src="https://hackmd.io/_uploads/ryqLubssp.png" width="300"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/MarchingCube1.jpg" width="325"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/MarchingCube2.jpg" width="300"/>
 </figure>
 
 #### Isosurface Search Algorithm Implementation Process :
-![image](https://hackmd.io/_uploads/H1-QKZssp.png)
+![image](https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/MarchingCube.jpg)
 
 **Developer Perspective:** 
 First, understanding the relationships between various vertices and edges allows for the derivation of 15 cutting planes. Considering the adjustable weights for each point, there are countless possibilities for these cutting planes.
@@ -116,11 +116,11 @@ In order to guide players and enhance game interactivity with Non-Player Charact
 The process involves using the game script as a prompt for ChatGPT. Additionally, we have integrated Unity with Amazon's AWS Polly technology to convert the player's spoken content into text, serving as input for ChatGPT. After textual processing by GPT, NPC responses are generated. Subsequently, AWS Polly is employed to convert the text back into speech, delivering the response to the player for ongoing dialogue. This integration aims to provide a dynamic and non-scripted feedback mechanism for player actions in the game.
 
 #### Integrating ChatGPT and AWS Polly in Player-NPC Dialogue Flowchart :
-![image](https://hackmd.io/_uploads/SkPlWQsj6.png)
+![image](https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/ChatGPT_flowchart.jpg)
 
 ### 3-4. Virtual Reality
 #### Virtual Reality (VR) Game Visuals Presentation : 
-![image](https://hackmd.io/_uploads/Bkj4-7oip.png)
+![image](https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/VR.jpg)
 
 Virtual Reality requires sensing the player's position and detecting changes in the player's perspective through head-mounted devices. 
 
@@ -138,20 +138,20 @@ When objects from the alternate scene entered the player's camera view through t
 
 ==Level 1 Map==
 <figure class= "half">
-<img src="https://hackmd.io/_uploads/HJNZC7isa.png" width="330"/>
-<img src="https://hackmd.io/_uploads/SkoWRQsip.png" width="240"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/Level1.png" width="330"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/Level1Hint.png" width="240"/>
 </figure>
 
 ==Forest Map==
 <figure class= "half">
-<img src="https://hackmd.io/_uploads/By2samio6.png" width="300"/>
-<img src="https://hackmd.io/_uploads/SJZna7ii6.png" width="260"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/Forest.png" width="300"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/ForestHint.png" width="260"/>
 </figure>
 
 ==Level 2 Map==
 <figure class= "half">
-<img src="https://hackmd.io/_uploads/rJhUA7iiT.png" width="300"/>
-<img src="https://hackmd.io/_uploads/SkGo0mosp.png" width="260"/> 
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/level2.png" width="300"/>
+<img src="https://github.com/weihsinyeh/Unity_VR_Project_Latest/blob/main/images/Level2Hint.png" width="260"/> 
 </figure>
 
 ## 🎉🎉🎉🎉🎉
